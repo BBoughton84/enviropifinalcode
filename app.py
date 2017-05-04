@@ -75,21 +75,21 @@ def read_temp():
 
 while(1):
     tempHolder = round(read_temp(), 2)
-    if tempHolder2 < 73:
+    if tempHolder < 73:
         GPIO.output(greenled, 0)
         GPIO.output(redled, 0)
         GPIO.output(blueled, 1)
-    if (tempHolder2 >=73 and tempHolder2 < 75):
+    if (tempHolder >=73 and tempHolder < 75):
         GPIO.output(redled, 0)
         GPIO.output(blueled, 0)
         GPIO.output(greenled, 1)
-    if tempHolder2 >= 75:
+    if tempHolder >= 75:
         GPIO.output(greenled, 0)
         GPIO.output(blueled, 0)
         GPIO.output(redled, 1)
     camera.start_preview()
     sleep(2)
-    camera.capture('/home/pi/Desktop/production/.....?....../pic_to_send.jpg')
+    camera.capture('/home/pi/Desktop/production/enviropifinalcode/pic_to_send.jpg')
     camera.stop_preview()
     picToSend = {'file': open('pic_to_send.jpg', 'rb')}
     dataToSend = {'name':'Classroom', 'temperature':tempHolder, 'location':1}
