@@ -68,9 +68,8 @@ while(1):
     camera.capture('/home/pi/Desktop/production/enviropifinalcode/pic_to_send.jpg')
     camera.stop_preview()
     picToSend = {'file': open('pic_to_send.jpg', 'rb')}
-    dataToSend = {'name':'Board Room', 'temperature':tempHolder, 'location':3}
+    dataToSend = {'name':'Classroom', 'temperature':tempHolder, 'location':1}
     source = requests.post('https://enviropi-backend.herokuapp.com/images', files=picToSend, data=dataToSend)
     print(source.content)
-    print(source.status_code)
     print(tempHolder)
-    sleep(15)
+    sleep(10)
