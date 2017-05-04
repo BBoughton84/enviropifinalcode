@@ -46,36 +46,35 @@ def read_temp():
         temp_f = temp_c * 9.0 / 5.0 + 32.0
         return temp_f
 
-while (1):
-
-    if GPIO.input(button) == 0:
-        print("Button was pressed")
-        sleep(0.1)
-        GPIO.output(redled, 1)
-        camera.start_preview()
-        tempHolder = round(read_temp(), 2)
-        sleep(2)
-        camera.capture('/home/pi/Desktop/testing/button_test/test_send_pic.jpg')
-        camera.stop_preview()
-        GPIO.output(redled, 0)
-
-
-        picToSend = {'file': open('test_send_pic.jpg', 'rb')}
-        dataToSend = {'name':'Classroom', 'temperature':tempHolder, 'location':1}
-        source = requests.post('https://enviropi-backend.herokuapp.com/images', files=picToSend, data=dataToSend)
-        print(source.text)
-        print(source.content)
-        print(source.status_code)
-
-        sleep(1)
-        GPIO.output(greenled, 1)
-        sleep(2)
-        GPIO.output(greenled, 0)
-
-
+# while (1):
+#
+#     if GPIO.input(button) == 0:
+#         print("Button was pressed")
+#         sleep(0.1)
+#         GPIO.output(redled, 1)
+#         camera.start_preview()
+#         tempHolder = round(read_temp(), 2)
+#         sleep(2)
+#         camera.capture('/home/pi/Desktop/testing/button_test/test_send_pic.jpg')
+#         camera.stop_preview()
+#         GPIO.output(redled, 0)
+#
+#
+#         picToSend = {'file': open('test_send_pic.jpg', 'rb')}
+#         dataToSend = {'name':'Classroom', 'temperature':tempHolder, 'location':1}
+#         source = requests.post('https://enviropi-backend.herokuapp.com/images', files=picToSend, data=dataToSend)
+#         print(source.text)
+#         print(source.content)
+#         print(source.status_code)
+#
+#         sleep(1)
+#         GPIO.output(greenled, 1)
+#         sleep(2)
+#         GPIO.output(greenled, 0)
 
 
 while(1):
+    tempHolder = round(read_temp(), 2)
     if tempHolder2 < 73:
         GPIO.output(greenled, 0)
         GPIO.output(redled, 0)
@@ -88,5 +87,13 @@ while(1):
         GPIO.output(greenled, 0)
         GPIO.output(blueled, 0)
         GPIO.output(redled, 1)
+    camera.start_preview()
+    sleep(2)
+    camera.capture('/home/pi/Desktop/production/.....?....../pic_to_send.jpg')
+    camera.stop_preview()
+    picToSend = {'file': open('pic_to_send.jpg', 'rb')}
+    dataToSend = {'name':'Classroom', 'temperature':tempHolder, 'location':1}
+    source = requests.post('https://enviropi-backend.herokuapp.com/images', files=picToSend, data=dataToSend)
+    print(source.content)
+    print(source.status_code)
     sleep(60)
-    
