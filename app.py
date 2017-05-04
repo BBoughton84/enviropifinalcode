@@ -19,12 +19,14 @@ GPIO.setmode(GPIO.BOARD)
 camera = PiCamera()
 
 button = 11
+blueled = 18
 greenled = 16
 redled = 13
 
 GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(greenled, GPIO.OUT, initial=0)
+GPIO.setup(greenled, GPIO.OUT, initial = 0)
 GPIO.setup(redled, GPIO.OUT, initial = 0)
+GPIO.setup(blueled, GPIO.OUT, initial = 0)
 
 def read_temp_raw():
     f = open(device_file, 'r')
@@ -56,7 +58,7 @@ while (1):
         camera.capture('/home/pi/Desktop/testing/button_test/test_send_pic.jpg')
         camera.stop_preview()
         GPIO.output(redled, 0)
-        
+
 
         picToSend = {'file': open('test_send_pic.jpg', 'rb')}
         dataToSend = {'name':'Classroom', 'temperature':tempHolder, 'location':1}
@@ -64,8 +66,27 @@ while (1):
         print(source.text)
         print(source.content)
         print(source.status_code)
-        
+
         sleep(1)
         GPIO.output(greenled, 1)
         sleep(2)
         GPIO.output(greenled, 0)
+
+
+
+
+while(1):
+    if tempHolder2 < 73:
+        GPIO.output(greenled, 0)
+        GPIO.output(redled, 0)
+        GPIO.output(blueled, 1)
+    if (tempHolder2 >=73 and tempHolder2 < 75):
+        GPIO.output(redled, 0)
+        GPIO.output(blueled, 0)
+        GPIO.output(greenled, 1)
+    if tempHolder2 >= 75:
+        GPIO.output(greenled, 0)
+        GPIO.output(blueled, 0)
+        GPIO.output(redled, 1)
+    sleep(60)
+    
